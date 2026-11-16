@@ -1,0 +1,2 @@
+// Scope standalone IPA header modules away from the global HAL modules.
+soong_namespace {}

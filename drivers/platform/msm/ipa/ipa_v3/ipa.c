@@ -2602,7 +2602,7 @@ static int ipa3_send_pkt_threshold(unsigned long usr_param)
 
 	if (((struct ipa_ioc_set_pkt_threshold *)buff1)->ioctl_data_size !=
 		sizeof(struct ipa_set_pkt_threshold)) {
-		IPAERR("IPA_IOC_SET_PKT_THRESHOLD size not match(%d,%d)!\n",
+		IPAERR("IPA_IOC_SET_PKT_THRESHOLD size not match(%d,%zu)!\n",
 		((struct ipa_ioc_set_pkt_threshold *)buff1)->ioctl_data_size,
 		sizeof(struct ipa_set_pkt_threshold));
 		kfree(buff1);
@@ -2663,7 +2663,7 @@ static int ipa3_send_sw_flt_list(unsigned long usr_param)
 
 	if (sw_flt_list.ioctl_data_size !=
 		sizeof(struct ipa_sw_flt_list_type)) {
-		IPAERR("IPA_IOC_SET_SW_FLT size not match(%d,%d)!\n",
+		IPAERR("IPA_IOC_SET_SW_FLT size not match(%d,%zu)!\n",
 		sw_flt_list.ioctl_data_size,
 		sizeof(struct ipa_sw_flt_list_type));
 		return -EFAULT;
@@ -2727,7 +2727,7 @@ static int ipa3_send_ippt_sw_flt_list(unsigned long usr_param)
 	/* Expect ipa_ippt_sw_flt_list_type struct*/
 	if (sw_flt_list.ioctl_data_size !=
 		sizeof(struct ipa_ippt_sw_flt_list_type)) {
-		IPAERR("IPA_IOC_SET_IPPT_SW_FLT size not match(%d,%d)!\n",
+		IPAERR("IPA_IOC_SET_IPPT_SW_FLT size not match(%d,%zu)!\n",
 		sw_flt_list.ioctl_data_size,
 		sizeof(struct ipa_ippt_sw_flt_list_type));
 		return -EFAULT;
@@ -9487,7 +9487,7 @@ static int ipa3_pre_init(const struct ipa3_plat_drv_res *resource_p,
 	}
 
 	IPADBG(
-	    "base(0x%x)+offset(0x%x)=(0x%x) mapped to (0x%x) with len (0x%x)\n",
+	    "base(0x%x)+offset(0x%x)=(0x%x) mapped to (%pK) with len (0x%x)\n",
 	    resource_p->ipa_mem_base,
 	    ipa3_ctx->ctrl->ipa_reg_base_ofst,
 	    resource_p->ipa_mem_base + ipa3_ctx->ctrl->ipa_reg_base_ofst,

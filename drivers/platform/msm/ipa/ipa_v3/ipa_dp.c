@@ -1147,8 +1147,8 @@ static int ipa3_tx_switch_to_intr_mode(struct ipa3_sys_context *sys) {
 			atomic_set(&sys->curr_polling_state, 1);
 			__ipa3_update_curr_poll_state(sys->ep->client, 1);
 		} else {
-			IPAERR("Failed to switch to intr mode %d ch_id %d\n",
-				sys->curr_polling_state, sys->ep->gsi_chan_hdl);
+			IPAERR("Failed to switch to intr mode %d ch_id %lu\n",
+				atomic_read(&sys->curr_polling_state), sys->ep->gsi_chan_hdl);
 		}
 	}
 	return ret;
@@ -1174,8 +1174,8 @@ static int ipa3_rx_switch_to_intr_mode(struct ipa3_sys_context *sys)
 			atomic_set(&sys->curr_polling_state, 1);
 			__ipa3_update_curr_poll_state(sys->ep->client, 1);
 		} else {
-			IPAERR("Failed to switch to intr mode %d ch_id %d\n",
-			 sys->curr_polling_state, sys->ep->gsi_chan_hdl);
+			IPAERR("Failed to switch to intr mode %d ch_id %lu\n",
+			 atomic_read(&sys->curr_polling_state), sys->ep->gsi_chan_hdl);
 		}
 	}
 
@@ -1452,7 +1452,7 @@ int ipa_setup_sys_pipe(struct ipa_sys_connect_params *sys_in, u32 *clnt_hdl)
 
 	if (sys_in == NULL || clnt_hdl == NULL) {
 		IPAERR(
-			"NULL args: sys_in(%p) and/or clnt_hdl(%u)\n",
+			"NULL args: sys_in(%p) and/or clnt_hdl(%p)\n",
 			sys_in, clnt_hdl);
 		goto fail_gen;
 	}
@@ -6574,7 +6574,7 @@ int ipa3_alloc_common_event_ring(void)
 					   IPA_GSI_EVENT_RP_SIZE,
 					   &evt_rp_dma_addr, GFP_KERNEL);
 		if (!gsi_evt_ring_props.rp_update_vaddr) {
-			IPAERR("fail to dma alloc %u bytes\n",
+			IPAERR("fail to dma alloc %d bytes\n",
 			       IPA_GSI_EVENT_RP_SIZE);
 			result = -ENOMEM;
 			goto fail_alloc_rp;
@@ -6727,7 +6727,7 @@ alloc:
 			gfp = GFP_KERNEL;
 			goto alloc;
 		}
-		IPAERR("fail to dma alloc %u bytes\n", size);
+		IPAERR("fail to dma alloc %zu bytes\n", size);
 		ipa_assert();
 	}
 
@@ -6795,7 +6795,7 @@ static int ipa_gsi_setup_event_ring(struct ipa3_ep_context *ep,
 					   IPA_GSI_EVENT_RP_SIZE,
 					   &evt_rp_dma_addr, GFP_KERNEL);
 		if (!gsi_evt_ring_props.rp_update_vaddr) {
-			IPAERR("fail to dma alloc %u bytes\n",
+			IPAERR("fail to dma alloc %d bytes\n",
 				IPA_GSI_EVENT_RP_SIZE);
 			result = -ENOMEM;
 			goto fail_alloc_rp;
